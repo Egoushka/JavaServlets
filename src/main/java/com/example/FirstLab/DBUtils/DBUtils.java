@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBUtils {
+
     public static void close(Connection connection){
         if(connection == null) return;
         try {

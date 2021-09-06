@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -27,13 +28,15 @@ public class RegistrationServlet extends HttpServlet{
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("repeatPassword");
         String name = request.getParameter("name");
+        HttpSession session = request.getSession();
         if(!repeatPassword.equals(password) || password.equals(""))
         {
             getServletContext().getRequestDispatcher("/authorization/registration.jsp").forward(request, response);
             return;
         }
         var clientDto = clientManager.addClient(name, email, password);
+        session.setAttribute("client", clientDto);
 
-        response.sendRedirect("../client-servlet");
+        response.sendRedirect("../index.jsp");
     }
 }

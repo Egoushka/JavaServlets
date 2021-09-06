@@ -21,19 +21,19 @@ public class ClientManager{
         for (var item : clients ) {
             if(item.getEmail().equals(email)){
                 if(item.getPassword().equals(password)){
-                    return item.fromEntityToDto();
+                    return  ClientDto.fromEntityToDto(item);
                 }
                 return null;
             }
         }
         return null;
     }
-    public ClientDto addClient(String name, String email, String password){
+    public boolean addClient(String name, String email, String password){
         var client = new Client(name, email, password);
 
         dao.insert(client);
 
-        return client.fromEntityToDto();
+        return true;
     }
     public boolean delete(int id){
         return dao.delete(id);

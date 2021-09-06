@@ -1,5 +1,9 @@
 package com.example.FirstLab.models.dto;
 
+import com.example.FirstLab.models.Client;
+import lombok.Data;
+
+@Data
 public class ClientDto {
     int id;
     String name;
@@ -11,27 +15,9 @@ public class ClientDto {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static ClientDto fromEntityToDto(Client client){
+        return new ClientDto(client.getId(), client.getName(), client.getEmail());
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

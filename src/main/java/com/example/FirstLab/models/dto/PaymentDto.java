@@ -1,5 +1,9 @@
 package com.example.FirstLab.models.dto;
 
+import com.example.FirstLab.models.Payment;
+import lombok.Data;
+
+@Data
 public class PaymentDto {
     int id;
     int amount;
@@ -12,36 +16,8 @@ public class PaymentDto {
         this.clientId = clientId;
         this.text = text;
     }
-
-    public int getId() {
-        return id;
+    public static PaymentDto fromEntityToDto(Payment payment){
+        return new PaymentDto(payment.getId(), payment.getAmount() ,payment.getClientId(), payment.getText());
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
 }

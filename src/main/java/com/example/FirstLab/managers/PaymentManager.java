@@ -22,7 +22,7 @@ public class PaymentManager {
         var result = payments
                 .stream()
                 .filter(payment -> payment.getClientId() == clientId);
-        return result.map(Payment::fromEntityToDto).collect(Collectors.toList());
+        return result.map(PaymentDto::fromEntityToDto).collect(Collectors.toList());
     }
     public PaymentDto add(int amount, int clientId, String text){
 
@@ -30,7 +30,7 @@ public class PaymentManager {
 
         dao.insert(payment);
 
-        return payment.fromEntityToDto();
+        return PaymentDto.fromEntityToDto(payment);
     }
     public boolean delete(int id){
         return dao.delete(id);

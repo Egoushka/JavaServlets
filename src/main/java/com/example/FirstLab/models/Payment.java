@@ -2,11 +2,19 @@ package com.example.FirstLab.models;
 
 import com.example.FirstLab.models.dto.ClientDto;
 import com.example.FirstLab.models.dto.PaymentDto;
+import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
+@Data
 public class Payment {
+    @NotNull
     int id;
+    @NotNull
     int amount;
+    @NotNull
     int clientId;
+    @NotNull
     String text;
 
     public Payment(int amount, int clientId, String text) {
@@ -14,44 +22,5 @@ public class Payment {
         this.clientId = clientId;
         this.text = text;
     }
-
-    public Payment() {
-
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public PaymentDto fromEntityToDto(){
-        return new PaymentDto(getId(), getAmount() ,getClientId(), getText());
-    }
+    public Payment(){}
 }

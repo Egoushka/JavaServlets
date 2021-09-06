@@ -6,10 +6,7 @@ import com.example.FirstLab.DBUtils.PaymentDBUtils;
 import com.example.FirstLab.models.Payment;
 import com.example.FirstLab.models.dto.PaymentDto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +24,11 @@ public class PaymentDao{
     public Optional<Payment> get(int id) {
         Optional<Payment> result = Optional.empty();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM [Payment] WHERE id=" + id);
+            String query = "SELECT * FROM [Payment] WHERE id=?";
+
+            PreparedStatement statement  = connection.prepareStatement(query);
+
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 result = PaymentDBUtils.getPayment(rs);
@@ -47,8 +47,11 @@ public class PaymentDao{
     public List<Payment> getAll() {
         List<Payment> payments = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM [Payment]");
+            String query = "SELECT * FROM [Payment]";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 var payment = PaymentDBUtils.getPayment(rs);
@@ -66,10 +69,15 @@ public class PaymentDao{
     public boolean insert(Payment payment) {
         try
         {
-            Statement statement = connection.createStatement();
-             statement.execute(
-                    "INSERT INTO Payment(amount, text, clientId) " +
-                            "VALUES(" + payment.getAmount() + ",'" + payment.getText() + "'," + payment.getClientId() + ");");
+            String query = "INSERT INTO Payment(amount, text, clientId) VALUES(?,?,?)";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1,payment.getAmount());
+            statement.setString(2,payment.getText());
+            statement.setInt(3, payment.getClientId());
+
+            statement.execute();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -79,28 +87,16 @@ public class PaymentDao{
         return true;
     }
 
-    public boolean update(Payment payment) {
-        boolean result = false;
-        try
-        {
-            Statement statement = connection.createStatement();
-            result = statement.execute(
-                    "UPDATE Payment" +
-                            "SET Name = '" + payment.getAmount() + "'" +
-                            "WHERE id = " + payment.getId() + ";");
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return result;
-    }
-
     public boolean delete(int id) {
         boolean result = false;
         try
         {
-            result = statement.execute(
-                    "DELETE FROM Payment WHERE id=" + id);
+            String query = "DELETE FROM Payment WHERE id=?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, id);
+            result = statement.execute();
         }
         catch (SQLException ex) {
             ex.printStackTrace();

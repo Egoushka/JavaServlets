@@ -6,13 +6,18 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private static ConnectionFactory instance = new ConnectionFactory();
+    private static ConnectionFactory instance;
     public static String URL = "jdbc:sqlite:identifier.sqlite";
     public static String DRIVER_CLASS = "org.sqlite.JDBC";
+    private Connection connection;
 
-    private ConnectionFactory() {
-
+    static {
+        instance = new ConnectionFactory();
+        instance.connection = instance.createConnection();
     }
+    private ConnectionFactory() {
+    }
+
 
     public Connection createConnection() {
         Connection connection;
@@ -26,6 +31,6 @@ public class ConnectionFactory {
     }
 
     public static Connection getConnection() {
-        return instance.createConnection();
+        return instance.connection;
     }
 }

@@ -7,10 +7,7 @@ import com.example.FirstLab.models.Client;
 import com.example.FirstLab.models.Payment;
 import com.example.FirstLab.models.dto.ClientDto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +24,12 @@ public class ClientDao {
     public Optional<Client> get(int id) {
         Optional<Client> result = Optional.empty();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM [Client] WHERE id=" + id);
+            String query = "SELECT * FROM [Client] WHERE id=?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 result = ClientDBUtils.getClient(rs);
@@ -47,8 +48,11 @@ public class ClientDao {
     public List<Client> getAll() {
         List<Client> clients = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM [Client]");
+            String query = "SELECT * FROM [Client]";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 var client = ClientDBUtils.getClient(rs);
@@ -63,44 +67,31 @@ public class ClientDao {
         return clients;
     }
 
-    public Client insert(Client client) {
-        boolean result = false;
+    public boolean insert(Client client) {
         try {
-            Statement statement = connection.createStatement();
-            result = statement.execute(
-                    "INSERT INTO Client(name, email, password) " +
-                            "VALUES('" + client.getName() + "'," +
-                            "'" + client.getEmail() + "'," +
-                            "'" + client.getPassword() + "'"+
-                            ")");
+            String query = "INSERT INTO Client(name, email, password) VALUES(?, ?,?)";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, client.getName());
+            statement.setString(2, client.getEmail());
+            statement.setString(3, client.getPassword());
+
+            statement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         System.out.println("Client inserted");
-        return client;
+        return true;
     }
-
-    public Client update(Client client) {
-        boolean result = false;
-        try {
-            Statement statement = connection.createStatement();
-            result = statement.execute(
-                    "UPDATE Client" +
-                            "SET Name = '" + client.getName() + "'" +
-                            "email = '" + client.getEmail() + "'"+
-                            "password = '" + client.getPassword() + "'"+
-                            "WHERE id = " + client.getId() + ";");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return client;
-    }
-
     public boolean delete(int id) {
         boolean result = false;
         try {
-            result = statement.execute(
-                    "DELETE FROM Client WHERE id=" + id);
+            String query = "DELETE FROM Client WHERE id=?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1,id);
+
+            result = statement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -111,8 +102,11 @@ public class ClientDao {
     public boolean clearData() {
         boolean result = false;
         try {
-            result = statement.execute(
-                    "DELETE FROM Client");
+            String query = "DELETE FROM Client";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            result = statement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
