@@ -1,8 +1,7 @@
 package com.example.FirstLab;
 
-import com.example.FirstLab.managers.ClientManager;
 import com.example.FirstLab.managers.PaymentManager;
-import com.example.FirstLab.models.dto.ClientDto;
+import com.example.FirstLab.models.DTO.ClientDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +16,7 @@ import java.sql.SQLException;
 public class PaymentServlet extends HttpServlet {
     PaymentManager paymentManager;
     public void init() {
-        try {
             paymentManager = new PaymentManager();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     @Override

@@ -1,11 +1,16 @@
 package com.example.FirstLab.models;
 
-import com.example.FirstLab.models.dto.ClientDto;
 import lombok.Data;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
+import javax.interceptor.AroundConstruct;
+import javax.interceptor.Interceptor;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Stateless
 public class Client  {
     @NotNull
     int id;
@@ -31,6 +36,19 @@ public class Client  {
         this.password = password;
     }
     public Client() {
+        this.email = "";
+    }
+    @AroundConstruct
+    public void beforeConstruct(){
+        System.out.println("Client are creating");
+    }
+    @PostConstruct
+    public void afterConstruct(){
+        System.out.println("Client created");
+    }
+    @PreDestroy
+    public void beforeDestroy(){
+        System.out.println("Client are destroing");
     }
 
 

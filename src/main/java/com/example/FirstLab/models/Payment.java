@@ -1,7 +1,5 @@
 package com.example.FirstLab.models;
 
-import com.example.FirstLab.models.dto.ClientDto;
-import com.example.FirstLab.models.dto.PaymentDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

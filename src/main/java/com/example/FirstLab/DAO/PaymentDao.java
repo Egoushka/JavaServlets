@@ -1,18 +1,21 @@
-package com.example.FirstLab.dao;
+package com.example.FirstLab.DAO;
 
 import com.example.FirstLab.DBUtils.ConnectionFactory;
 import com.example.FirstLab.DBUtils.DBUtils;
 import com.example.FirstLab.DBUtils.PaymentDBUtils;
 import com.example.FirstLab.models.Payment;
-import com.example.FirstLab.models.dto.PaymentDto;
+import com.example.FirstLab.qualifiers.PaymentDaoQualifier;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class PaymentDao{
+public class PaymentDao implements IPaymentDao{
     Connection connection;
     Statement statement;
 
@@ -21,6 +24,7 @@ public class PaymentDao{
         statement = connection.createStatement();
     }
 
+    @Override
     public Optional<Payment> get(int id) {
         Optional<Payment> result = Optional.empty();
         try {
@@ -44,6 +48,7 @@ public class PaymentDao{
         return result;
     }
 
+    @Override
     public List<Payment> getAll() {
         List<Payment> payments = new ArrayList<>();
         try {
@@ -66,6 +71,7 @@ public class PaymentDao{
         return payments;
     }
 
+    @Override
     public boolean insert(Payment payment) {
         try
         {
@@ -87,6 +93,7 @@ public class PaymentDao{
         return true;
     }
 
+    @Override
     public boolean delete(int id) {
         boolean result = false;
         try
@@ -105,6 +112,7 @@ public class PaymentDao{
         return result;
     }
 
+    @Override
     public boolean clearData() {
         boolean result = false;
         try

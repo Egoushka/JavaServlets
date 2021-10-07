@@ -1,7 +1,7 @@
 package com.example.FirstLab;
 
 import com.example.FirstLab.managers.PaymentManager;
-import com.example.FirstLab.models.dto.ClientDto;
+import com.example.FirstLab.models.DTO.ClientDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

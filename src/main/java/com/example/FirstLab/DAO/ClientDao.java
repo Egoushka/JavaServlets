@@ -1,26 +1,46 @@
-package com.example.FirstLab.dao;
+package com.example.FirstLab.DAO;
 
 import com.example.FirstLab.DBUtils.ClientDBUtils;
 import com.example.FirstLab.DBUtils.ConnectionFactory;
 import com.example.FirstLab.DBUtils.DBUtils;
 import com.example.FirstLab.models.Client;
-import com.example.FirstLab.models.Payment;
-import com.example.FirstLab.models.dto.ClientDto;
+import com.example.FirstLab.qualifiers.ClientDaoQualifier;
 
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class ClientDao {
+@Default
+public class ClientDao implements IClientDao{
     Connection connection;
     Statement statement;
 
+    @Inject
     public ClientDao() throws SQLException {
-        connection = ConnectionFactory.getConnection();
-        statement = connection.createStatement();
+        setConnection(ConnectionFactory.getConnection());
+        setStatement(getConnection().createStatement());
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Statement getStatement() {
+        return statement;
+    }
+
+    public void setStatement(Statement statement) {
+        this.statement = statement;
+    }
+
+    @Override
     public Optional<Client> get(int id) {
         Optional<Client> result = Optional.empty();
         try {
@@ -45,6 +65,7 @@ public class ClientDao {
         return result;
     }
 
+    @Override
     public List<Client> getAll() {
         List<Client> clients = new ArrayList<>();
         try {
@@ -67,6 +88,7 @@ public class ClientDao {
         return clients;
     }
 
+    @Override
     public boolean insert(Client client) {
         try {
             String query = "INSERT INTO Client(name, email, password) VALUES(?, ?,?)";
@@ -83,6 +105,7 @@ public class ClientDao {
         System.out.println("Client inserted");
         return true;
     }
+    @Override
     public boolean delete(int id) {
         boolean result = false;
         try {
@@ -99,6 +122,7 @@ public class ClientDao {
         return result;
     }
 
+    @Override
     public boolean clearData() {
         boolean result = false;
         try {

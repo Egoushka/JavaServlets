@@ -1,4 +1,4 @@
-package com.example.FirstLab.models.dto;
+package com.example.FirstLab.models.DTO;
 
 import com.example.FirstLab.models.Payment;
 import lombok.Data;

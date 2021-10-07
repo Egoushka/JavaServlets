@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cdi-api-2.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/javax/enterprise/cdi-api/2.0/cdi-api-2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

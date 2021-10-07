@@ -1,22 +1,21 @@
 package com.example.FirstLab.managers;
 
-import com.example.FirstLab.dao.ClientDao;
-import com.example.FirstLab.dao.PaymentDao;
-import com.example.FirstLab.models.Client;
+import com.example.FirstLab.DAO.IDao;
 import com.example.FirstLab.models.Payment;
-import com.example.FirstLab.models.dto.ClientDto;
-import com.example.FirstLab.models.dto.PaymentDto;
+import com.example.FirstLab.models.DTO.PaymentDto;
+import com.example.FirstLab.qualifiers.PaymentDaoQualifier;
+import com.example.FirstLab.qualifiers.PaymentManagerQualifier;
 
-import java.sql.SQLException;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class PaymentManager {
-    PaymentDao dao;
-    public PaymentManager() throws SQLException {
-        dao = new PaymentDao();
-    }
+@Named
+@RequestScoped
+public class PaymentManager implements IPaymentManager{
+    IDao<Payment> dao;
     public List<PaymentDto> getClientPayments(int clientId){
         var payments = dao.getAll();
         var result = payments

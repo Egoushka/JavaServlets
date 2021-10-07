@@ -1,19 +1,36 @@
 package com.example.FirstLab.managers;
 
-import com.example.FirstLab.dao.ClientDao;
+import com.example.FirstLab.DAO.ClientDao;
+import com.example.FirstLab.DAO.IClientDao;
+import com.example.FirstLab.DAO.IDao;
 import com.example.FirstLab.models.Client;
-import com.example.FirstLab.models.dto.ClientDto;
+import com.example.FirstLab.models.DTO.ClientDto;
+import com.example.FirstLab.qualifiers.ClientDaoQualifier;
+import com.example.FirstLab.qualifiers.ClientManagerQualifier;
 
-import java.sql.SQLException;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
-public class ClientManager{
-    ClientDao dao;
-    public ClientManager() throws SQLException {
-        dao = new ClientDao();
+@Named
+@ApplicationScoped
+@Default
+public class ClientManager implements IClientManager{
+    @Inject
+    IClientDao dao;
+
+    public IClientDao getDao() {
+        return dao;
     }
+    public void setDao(IClientDao dao) {
+        this.dao = dao;
+    }
+
     public List<Client> getAll(){
-       return dao.getAll();
+        return dao.getAll();
 
     }
     public ClientDto getClient(String email, String password){

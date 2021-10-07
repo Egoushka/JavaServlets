@@ -1,9 +1,12 @@
 package com.example.FirstLab;
 
-import com.example.FirstLab.dao.ClientDao;
 import com.example.FirstLab.managers.ClientManager;
-import com.example.FirstLab.models.dto.ClientDto;
+import com.example.FirstLab.managers.IClientManager;
+import com.example.FirstLab.models.DTO.ClientDto;
+import com.example.FirstLab.qualifiers.ClientDaoQualifier;
+import com.example.FirstLab.qualifiers.ClientManagerQualifier;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +19,10 @@ import java.sql.SQLException;
 @WebServlet(name = "adminServlet", value = "/admin-servlet")
 
 public class AdminServlet extends HttpServlet {
-    ClientManager clientManager;
+    @Inject
+    @ClientManagerQualifier
+    IClientManager clientManager;
 
-    public void init() {
-        try {
-            clientManager = new ClientManager();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         var param = request.getParameter("id");

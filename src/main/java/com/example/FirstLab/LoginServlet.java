@@ -1,9 +1,13 @@
 package com.example.FirstLab;
 
-import com.example.FirstLab.dao.ClientDao;
 import com.example.FirstLab.managers.ClientManager;
+import com.example.FirstLab.managers.IClientManager;
+import com.example.FirstLab.managers.IManager;
 import com.example.FirstLab.models.Client;
+import com.example.FirstLab.qualifiers.ClientManagerQualifier;
+import com.example.FirstLab.qualifiers.PaymentManagerQualifier;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,18 +19,13 @@ import java.sql.SQLException;
 @WebServlet(name = "loginServlet", value = "/login-servlet")
 
 public class LoginServlet extends HttpServlet {
-    ClientManager clientManager;
-    public void init() {
-        try {
-            clientManager = new ClientManager();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+    @Inject
+    IClientManager clientManager;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
+        new Client();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
